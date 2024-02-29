@@ -1,0 +1,89 @@
+version: '3.9'
+# name: "${BACKEND_APP_NAME}"
+services:
+  # node-api:
+  #   env_file: './.env'
+  #   container_name: '${BACKEND_APP_NAME}_node-api'
+  #   build:
+  #     context: .
+  #     dockerfile: './deploy/docker/Node.Dockerfile'
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - '${BACKEND_API_PORT}:${BACKEND_API_PORT}'
+  #   networks:
+  #     - default
+  #   volumes:
+  #     - ./src:/app/src
+
+  db:
+    env_file: './.env'
+    container_name: '${BACKEND_APP_NAME}_db'
+    image: 'postgres:13'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT2}'
+    restart: on-failure
+    networks:
+      - default
+
+  redis:
+    env_file: './.env'
+    container_name: '${BACKEND_APP_NAME}_redis'
+    image: redis:6
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    networks:
+      - default
+  p3x-redis: # name: any, hostname: redis, port: 6579, username: '', password: '',
+    env_file: './.env'
+    container_name: '${BACKEND_APP_NAME}_p3xredis'
+    image: patrikx3/p3x-redis-ui:latest
+    ports:
+      - 7843:7843
+    volumes:
+      - p3xdata:/settings
+
+  pgadmin:
+    env_file: './.env'
+    container_name: '${BACKEND_APP_NAME}_pgadmin'
+    image: dpage/pgadmin4:7.4
+    ports:
+      - '${PGADMIN_PORT:-5050}:80'
+    volumes:
+      - pgadmindata:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - default
+    restart: unless-stopped
+  adminer:
+    env_file: './.env'
+    container_name: '${BACKEND_APP_NAME}_adminer'
+    image: adminer
+    restart: always
+    ports:
+      - '${ADMINER_PORT:-8080}:8080'
+    depends_on:
+      - db
+    networks:
+      - default
+  # nginx:
+  #   env_file: './.env'
+  #   image: 'nginx:1.25.3-alpine'
+  #   container_name: '${BACKEND_APP_NAME}_nginx'
+  #   volumes:
+  #     - './deploy/nginx/default.conf:/etc/nginx/conf.d/default.conf'
+  #   ports:
+  #     - '${NGINX_PORT}:${NGINX_PORT}'
+volumes:
+  pgdata:
+  redisdata:
+  p3xdata:
+  pgadmindata:
+
+networks:
+  default:
