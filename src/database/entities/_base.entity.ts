@@ -1,9 +1,4 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn()
