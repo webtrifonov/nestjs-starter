@@ -4,6 +4,7 @@ import { Module, DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormService } from './typeorm.service';
 import { TypeOrmExModule } from './typeorm-ex/typeorm-ex.module';
+import dataSource from './typeorm.config';
 
 interface IRegisterData {
   entities: any[];
@@ -24,14 +25,9 @@ export class TypeormModule {
           inject: [ConfigService],
           useFactory: (config: ConfigService) => {
             return {
-              type: 'postgres',
-              host: config.get('POSTGRES_HOST'),
-              port: config.get('POSTGRES_PORT'), // config.get('POSTGRES_PORT')
-              username: config.get('POSTGRES_USER'),
-              password: config.get('POSTGRES_PASSWORD'),
-              database: config.get('POSTGRES_DB'),
+              ...dataSource.options,
               entities,
-              synchronize: true,
+              synchronize: false,
               namingStrategy: new SnakeNamingStrategy(),
               logging: false,
             };
