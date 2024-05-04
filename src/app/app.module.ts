@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { entities } from '../database/entities/entities';
 import { repositories } from '../database/entities/repositories';
 import { UsersModule } from '../users/users.module';
+import { RolesModule } from '../roles/roles.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UsersModule } from '../users/users.module';
       repositories,
     }),
     UsersModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
