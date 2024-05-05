@@ -1,11 +1,5 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
-import { BaseEntity } from '../../database/entities/_base.entity';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { BaseEntity } from '../../common/database/entities/_base.entity';
 import { Role } from '../../roles/entities/roles.entity';
 
 @Entity({

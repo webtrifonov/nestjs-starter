@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): object {
+  home(): object {
     return {
       date: `${new Date().toString()}`,
       utc: `${new Date().toUTCString()}`,

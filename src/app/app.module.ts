@@ -1,11 +1,13 @@
 import * as Joi from '@hapi/joi';
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import { TypeormModule } from '@app/typeorm';
+import { publicPath } from '../common/utils/utils';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { entities } from '../database/entities/entities';
-import { repositories } from '../database/entities/repositories';
+import { entities } from '../common/database/entities/entities';
+import { repositories } from '../common/database/entities/repositories';
 import { UsersModule } from '../users/users.module';
 import { RolesModule } from '../roles/roles.module';
 
@@ -26,6 +28,10 @@ import { RolesModule } from '../roles/roles.module';
         POSTGRES_PORT: Joi.number().required(),
         PGDATA: Joi.string().required(),
       }),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: publicPath(),
+      serveRoot: '/public/',
     }),
     TypeormModule.forRoot({
       entities,

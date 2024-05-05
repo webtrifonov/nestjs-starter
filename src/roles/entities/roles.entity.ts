@@ -1,10 +1,5 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToMany
-} from 'typeorm';
-import { BaseEntity } from '../../database/entities/_base.entity';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { BaseEntity } from '../../common/database/entities/_base.entity';
 import { User } from '../../users/entities/users.entity';
 
 export enum RoleTitle {
