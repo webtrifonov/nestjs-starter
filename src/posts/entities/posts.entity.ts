@@ -11,7 +11,6 @@ export class Post extends BaseEntity {
 
   @Column({
     name: 'title',
-
     type: 'varchar',
     length: 255,
   })
@@ -20,6 +19,7 @@ export class Post extends BaseEntity {
   @Column({
     nullable: true,
     name: 'description',
+    type: 'text',
   })
   description: string;
 

@@ -9,8 +9,8 @@ export class PostsService {
     @InjectRepository(PostsRepository)
     private readonly postsRepo: PostsRepository
   ) {}
-  async createPost(createPostDto: CreatePostDto) {
-    return this.postsRepo.createPost(createPostDto);
+  async createPost(createPostDto: CreatePostDto, image: Express.Multer.File) {
+    return this.postsRepo.createPost({ ...createPostDto, image });
   }
   async getPosts() {
     return this.postsRepo.getPosts();

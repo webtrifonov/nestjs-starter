@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { CustomRepository } from '@app/typeorm';
 import { Post } from './entities/posts.entity';
-import { CreatePostDto } from './dto/posts.dto';
+import { CreatePostData } from './dto/posts.dto';
 
 @CustomRepository(Post)
 export class PostsRepository extends Repository<Post> {
@@ -13,13 +13,12 @@ export class PostsRepository extends Repository<Post> {
     return this.findOneBy({ id });
   }
 
-  async createPost(data: CreatePostDto) {
-    console.log(`>>> data = `, data);
-    const { title, description } = data;
+  async createPost(data: CreatePostData) {
+    const { title, description, image } = data;
     const newPost = new Post();
     newPost.title = title;
     newPost.description = description;
-    newPost.image = null;
+    newPost.image = `http://localhost:5000/public/uploads/${image.filename}`;
     await this.save(newPost);
     return newPost;
   }

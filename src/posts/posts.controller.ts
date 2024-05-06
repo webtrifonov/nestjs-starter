@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/posts.dto';
+import LocalFilesInterceptor from '../common/interceptors/localFiles.interceptor';
 
 @Controller('api/posts')
 export class PostsController {
@@ -11,8 +12,14 @@ export class PostsController {
     return this.postsService.getPosts();
   }
 
+  @UseInterceptors(
+    LocalFilesInterceptor({
+      fieldName: 'image',
+      path: '',
+    })
+  )
   @Post('/')
-  createPost(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.createPost(createPostDto);
+  createPost(@UploadedFile() image: Express.Multer.File, @Body() createPostDto: CreatePostDto) {
+    return this.postsService.createPost(createPostDto, image);
   }
 }

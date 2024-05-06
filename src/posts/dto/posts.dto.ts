@@ -4,7 +4,9 @@ import { ID } from '../../common/database/entities/_base.entity';
 export class CreatePostDto {
   title: Post['title'];
   description: Post['description'];
-  image: Post['image'];
+}
+export interface CreatePostData extends CreatePostDto {
+  image: Express.Multer.File;
 }
 export class RemovePostDto {
   readonly id: ID;
