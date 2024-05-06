@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/database/entities/_base.entity';
 import { Role } from '../../roles/entities/roles.entity';
+import { Post } from '../../posts/entities/posts.entity';
 
 @Entity({
   name: 'users',
@@ -33,4 +34,7 @@ export class User extends BaseEntity {
     },
   })
   roles: Role[];
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }

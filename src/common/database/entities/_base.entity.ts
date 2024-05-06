@@ -1,8 +1,8 @@
 import { BeforeInsert, BeforeUpdate, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+export type ID = number;
 export class BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: ID;
 
   @Column('timestamp', {
     nullable: false,

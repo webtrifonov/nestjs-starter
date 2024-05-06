@@ -10,6 +10,7 @@ import { entities } from '../common/database/entities/entities';
 import { repositories } from '../common/database/entities/repositories';
 import { UsersModule } from '../users/users.module';
 import { RolesModule } from '../roles/roles.module';
+import { PostsModule } from '../posts/posts.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { RolesModule } from '../roles/roles.module';
     }),
     UsersModule,
     RolesModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
