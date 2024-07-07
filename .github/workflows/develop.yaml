@@ -1,0 +1,50 @@
+name: Test CI
+run-name: 🚀Development build
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    branches: [main]
+env:
+  NODE_ENV: development
+jobs:
+  server-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 20]
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node JS
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+  server-deploy:
+    needs: [server-build]
+    runs-on: [develop-self-hosted]
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v4
+      - name: Print to console
+        run: |
+          echo NODE_ENV=${{ env.NODE_ENV }}
+          echo 'We are here:'
+          pwd
+          ls -la
+      - name: Start docker containers
+        run: |
+          sudo sh start.sh
+      - name: Start app
+        run: |
+          npm run start:dev
